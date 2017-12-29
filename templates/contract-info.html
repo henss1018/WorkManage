@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>合同信息</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td width="80"><a href="/budget_info/">预算信息</a></td>
+        <td width="300"><a href="/admin/">管理页面</a></td>
+        <td width="500"></td>
+        <td></td>
+    </tr>
+</table>
+<table border="1" width="1200">
+  <tr>
+    <th>合同名称</th>
+    <th>合同编码</th>
+    <th>预算项目编码</th>
+    <th>合同金额</th>
+    <th>预提总金额</th>
+    <th>合同进度</th>
+    <th>开发单价</th>
+    <th>维护单价</th>
+    <th>开发人天</th>
+    <th>维护人天</th>
+    <th>开始时间</th>
+    <th>结束时间</th>
+    <th>合作商</th>
+    <th>商务</th>
+    <th>联系方式</th>
+    <th>合同状态</th>
+    <th>负责人</th>
+  </tr>
+{% for b in contract_list %}
+  <tr>
+    <td><a href="{{order_url}}{{b.contract_code}}" target="_blank">{{ b.contract_name }}</a></td>
+    <td>{{ b.contract_code }}</td>
+    <td>{{ b.budget_code }}</td>
+    <td>{{ b.contract_amount }}</td>
+    {% for c in ae_amount_list %}
+        {% if c.contract_code == b.contract_code %}
+      <td><a href="{{aeinfo_url}}{{b.contract_code}}" target="_blank">{{ c.ae_sum }}</a></td>
+        <td>{% widthratio c.ae_sum b.contract_amount 100 %}%</td>
+        {% endif %}
+    {% endfor %}
+    <td>{{ b.dev_price }}</td>
+    <td>{{ b.mt_price }}</td>
+    <td>{{ b.dev_workload }}</td>
+    <td>{{ b.mt_workload }}</td>
+    <td>{{ b.start_date|date:"Y-m-d" }}</td>
+    <td>{{ b.end_date|date:"Y-m-d" }}</td>
+    <td>{{ b.vendor_name }}</td>
+    <td>{{ b.vendor_contactor }}</td>
+    <td>{{ b.vendor_contactor_phone }}</td>
+    <td>{{ b.contract_status }}</td>
+    <td>{{ b.budget.leader }}</td>
+  </tr>
+{% endfor %}
+</table>
+</body>
+</html>

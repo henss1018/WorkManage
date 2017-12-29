@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>合同预提明细</title>
+</head>
+<body>
+<table border="1" width="1200">
+  <tr>
+    <th>合同名称</th>
+    <th>合同编码</th>
+    <th>年度</th>
+    <th>月份</th>
+    <th>预提金额</th>
+    <th>冲销金额</th>
+    <th>预提订单编号</th>
+    <th>冲销订单编号</th>
+  </tr>
+{% if contract_aeinfo_list %}
+  {% for b in contract_aeinfo_list %}
+  <tr>
+    <td>{{ b.contract.contract_name }}</td>
+    <td>{{ b.contract.contract_code}}</td>
+    <td>{{ b.ae_year}}</td>
+    <td>{{ b.ae_month }}</td>
+    <td>{{ b.ae_amount }}</td>
+    <td>{{ b.ae_writeoff_amount }}</td>
+    <td>{{ b.ae_order_code }}</td>
+    <td>{{ b.ae_writeoff_order_code }}</td>
+  </tr>
+  {% endfor %}
+  <tr>
+  <th>预提总金额</th>
+  <th>{{ ae_amount.ae_sum }}</th>
+  <th>差额</th>
+  <th>{{ ae_diff }}</th>
+  </tr>
+{% else %}
+  <tr><td>查无结果</td></tr>
+{% endif %}
+</table>
+<table><tr><td width="600"></td><td width="500"></td><td> <a href="/contract_info/">返回</a></td></tr></table>
+</body>
+</html>

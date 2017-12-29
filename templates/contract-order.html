@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>预提订单明细</title>
+</head>
+<body>
+<table border="1" width="1250">
+  <tr>
+    <th>合同名称</th>
+    <th>合同编码</th>
+    <th>订单号</th>
+    <th>订单合同编码</th>
+    <th>订单金额</th>
+    <th>结算开始时间</th>
+    <th>结算结束时间</th>
+    <th>是否已核定工作量</th>
+    <th>订单预提金额</th>
+    <th>订单冲销金额</th>
+    <th>订单预提差额</th>
+    <th width="60">待办事项</th>
+  </tr>
+{% for b in contract_order_list %}
+  <tr>
+    <td>{{ b.contract.contract_name }}</td>
+    <td>{{ b.contract.contract_code}}</td>
+    <td>{{ b.order_code}}</td>
+    <td>{{ b.order_contract_code }}</td>
+    <td>{{ b.order_amount }}</td>
+    <td>{{ b.start_date|date:"Y-m-d" }}</td>
+    <td>{{ b.end_date|date:"Y-m-d" }}</td>
+    {% if b.workload_checked == 0 %}
+      <td>未核定</td>
+    {% else %}
+      <td>已核定</td>
+    {% endif %}
+    {% for c in ae_order_list %}
+        {% if c.order_code == b.order_contract_code %}
+        <td>{{ c.ae_sum }}</td>
+        <td>{{ c.ae_writeoff_sum }}</td>
+        <td>{{ c.ae_diff }}</td>
+        <td>{{ c.order_todo }}</td>
+        {% endif %}
+    {% endfor %}
+  </tr>
+{% endfor %}
+</table>
+<table><tr><td width="1100">合同总金额：{{contract_amount}} 全部订单总额：{{order_amount}}
+  已核定订单总额：{{order_amount_workloadchecked}} 核定进度：{{contract_per}} 合同剩余可支付金额：{{contract_balance}}
+</td><td width="0"></td><td> <a href="/contract_info/">返回</a></td></tr></table>
+</body>
+</html>

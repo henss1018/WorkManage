@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>预算项目详情</title>
+</head>
+<body>
+<table border="1" width="1200">
+  <tr>
+    <th>年度</th>
+    <th>预算项目名称</th>
+    <th>预算项目编码</th>
+    <th>集约化编码</th>
+    <th>预算总金额</th>
+    <th>年度预算金额</th>
+    <th>年度开发预算金额</th>
+    <th>年度维护预算金额</th>
+    <th>年度预提金额</th>
+  </tr>
+{% if budget_info_detail_list %}
+  {% for b in budget_info_detail_list %}
+    <tr>
+      <td>{{ b.year }}</td>
+      <td>{{ b.budget.budget_name}}</td>
+      <td>{{ b.budget.budget_code}}</td>
+      <td>{{ b.budget.intensive_code }}</td>
+      <td>{{ b.budget.budget_amount }}</td>
+      <td>{{ b.budget_amount }}</td>
+      <td>{{ b.dev_budget }}</td>
+      <td>{{ b.mt_budget }}</td>
+      {% for c in ae_list %}
+          {% if c.ae_year == b.year %}
+          <td>{{ c.ae_sum }}</td>
+          {% endif %}
+      {% endfor %}
+    </tr>
+  {% endfor %}
+{% else %}
+  <p>无结果</p>
+{% endif %}
+</table>
+<table><tr><td width="600"></td><td width="500"></td><td> <a href="/budget_info/">返回</a></td></tr></table>
+</body>
+</html>

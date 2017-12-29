@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>年度预算项目信息</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td width="80"><a href="/contract_info/">合同信息</a></td>
+        <td width="300"><a href="/admin/">管理页面</a></td>
+        <td width="500"></td>
+        <td></td>
+    </tr>
+</table>
+<table border="1" width="1200">
+  <tr>
+    <th>预算项目名称</th>
+    <th>预算项目编码</th>
+    <th>集约化编码</th>
+    <th>预算总金额</th>
+    <th>年度预算金额</th>
+    <th>年度预提金额</th>
+    <th>预算完成进度</th>
+    <th>合同名称</th>
+    <th>合同编码</th>
+    <th>开始时间</th>
+    <th>结束时间</th>
+    <th>项目状态</th>
+    <th>项目类型</th>
+    <th>负责人</th>
+  </tr>
+{% for b in budget_list %}
+  <tr>
+      <td><a href="{{budget_url}}{{b.budget_code}}" target="_blank">{{ b.budget_name }}</a></td>
+    <td>{{ b.budget_code }}</td>
+    <td>{{ b.intensive_code }}</td>
+    <td>{{ b.budget_amount }}</td>
+    {% for c in year_amount_list %}
+        {% if c.budget_code == b.budget_code %}
+        <td>{{ c.year_amount }}</td>
+        {% endif %}
+    {% endfor %}
+    {% if b.contract_budget_set.all.0 %}
+        {% for c in amount_list %}
+            {% if c.contract_code == b.contract_budget_set.all.0.contract_code %}
+            <td>{{ c.ae_sum }}</td>
+            {% for d in year_amount_list %}
+                {% if d.budget_code == b.budget_code %}
+                <td>{% widthratio c.ae_sum d.year_amount 100 %}%</td>
+                {% endif %}
+            {% endfor %}
+            {% endif %}
+        {% endfor %}
+      {% else %}
+      <td>{{ b.budget_amount }}</td>
+      <td>100%</td>
+      {% endif %}
+    <td>{{ b.contract_budget_set.all.0.contract_name }}</td>
+    <td>{{ b.contract_budget_set.all.0.contract_code }}</td>
+    <td>{{ b.start_date|date:"Y-m-d"  }}</td>
+    <td>{{ b.end_date|date:"Y-m-d"  }}</td>
+    <td>{{ b.status }}</td>
+    <td>{{ b.type }}</td>
+    <td>{{ b.leader }}</td>
+  </tr>
+{% endfor %}
+</table>
+</body>
+</html>
